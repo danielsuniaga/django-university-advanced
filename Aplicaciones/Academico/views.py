@@ -1,5 +1,6 @@
 from .models import Curso
-from django.shortcuts import render
+from django.views.generic import ListView
+from django.shortcuts import render,redirect
 #from django.http import HttpResponse 
 
 
@@ -10,4 +11,44 @@ def home(request):
     cursosListados = Curso.objects.all()[:2]
     #return HttpResponse("<h1>Hola mundo</h1>")
 
-    return render(request, "gestionCursos.html",{"cursos":cursosListados})
+    data = {
+        'titulo':'Gestión de Cursos',
+        'cursos':cursosListados
+    }
+    #return render(request, "gestionCursos.html",{"cursos":cursosListados})
+
+    return render(request,"gestionCursos.html",data)
+
+class CursoListView(ListView):
+
+    model = Curso
+
+    template_name = 'gestionCursos.html'
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+        context['titulo'] = 'Gestion de Cursos'
+
+        print(context)
+
+        return context
+
+def eliminar_curso(request,id):
+
+    curso=Curso.objects.get(id=id)
+
+    curso.delete()
+
+    return redirect('/')
+
+def registrar_curso(request):
+
+    nombre = request.POST['txtNombre']
+
+    creditos = request.POST['numCreditos']
+
+    curso = Curso.Objects.create(nombre=nombre, creditos=creditos)
+
+    return redirect('/')

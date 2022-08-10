@@ -7,12 +7,14 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Gestión de cursos</title>
+        <title>{{ titulo }}</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% load static %}
+
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="{% static 'css/gestionCursos.css' %}">
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -32,26 +34,63 @@
               </ul>
             </div>
           </nav>
-        <div class="container py-4">
+        <div class="container">
             <div class="row">
-                <div class="col-md-4"></div>
+                <div class="col-md-4">
+
+                    <h3>Gestión de Cursos</h3>
+
+                    <div class="card">
+
+                        <div class="card-body">
+
+                            <form action="/registrarCurso/" method="POST">{% csrf_token %}
+
+                                <div class="form-group">
+
+                                    <input type="text" name="txtNombre" class="form-control" placeholder="Nombre">
+
+                                </div>
+
+                                <div class="form-group">
+
+                                    <input type="number" name="numCreditos" class="form-control" placeholder="numero de Creditos" min="1" max="10" value="1">
+
+                                </div>
+                                
+                                <div class="form-group">
+
+                                    <input type="submit" class="btn btn-success btn-block text-while" value="Guardar">
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
                 <div class="col-md-8">
-                    <h2>Listado de cursos</h2>
+                    <h3>Listado de cursos</h3>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Cursos</th>
+                                    <th class="centrado">#</th>
+                                    <th class="centrado">Cursos</th>
                                     <th>Creditos</th>
+                                    <th colspan="2">Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for c in cursos %}
+                                {% for c in object_list %}
                                     <tr>
                                         <td>{{ forloop.counter }}</td>
                                         <td> {{ c.nombre }}</td>
                                         <td>{{ c.creditos }}</td>
+                                        <td><a href="edicionCurso/{{c.id}}" class="btn btn-block btn-info">Editar</a></td>
+                                        <td><a href="eliminarCurso/{{c.id}}" class="btn btn-block btn-danger">Eliminar</a></td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
