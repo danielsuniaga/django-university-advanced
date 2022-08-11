@@ -35,6 +35,16 @@ class CursoListView(ListView):
 
         return context
 
+def registrar_curso(request):
+
+    _nombre = request.POST['txtNombre']
+
+    _creditos = request.POST['numCreditos']
+
+    curso = Curso.objects.create(nombre=_nombre, creditos=_creditos)
+
+    return redirect('/')
+
 def eliminar_curso(request,id):
 
     curso=Curso.objects.get(id=id)
@@ -43,12 +53,3 @@ def eliminar_curso(request,id):
 
     return redirect('/')
 
-def registrar_curso(request):
-
-    nombre = request.POST['txtNombre']
-
-    creditos = request.POST['numCreditos']
-
-    curso = Curso.Objects.create(nombre=nombre, creditos=creditos)
-
-    return redirect('/')
