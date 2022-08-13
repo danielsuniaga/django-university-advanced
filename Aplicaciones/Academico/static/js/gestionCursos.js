@@ -2,6 +2,8 @@ const $formularioCurso = document.getElementById('formularioCurso');
 
 const $txtNombre = document.getElementById('txtNombre');
 
+const btnsElimininacion = document.querySelectorAll('.btnEliminacion');
+
 (function()
 {
 
@@ -16,6 +18,21 @@ const $txtNombre = document.getElementById('txtNombre');
 
             e.preventDefault();
         }
+
+    });
+
+    btnsElimininacion.forEach(btn => {
+
+        btn.addEventListener('click', function(e){
+
+            let confirmation=confirm("¿Confirma la eliminación del curso?")
+
+            if(!confirmation)
+            {
+                e.preventDefault();
+            }
+
+        })
 
     });
 
