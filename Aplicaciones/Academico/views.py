@@ -45,6 +45,35 @@ def registrar_curso(request):
 
     return redirect('/')
 
+def edicion_curso(request,id):
+
+    curso=Curso.objects.get(id=id)
+
+    data = {
+        'titulo':'Edición de Cursos',
+        'cursos':curso
+    }
+
+    return render(request,"edicionCurso.html",data)
+
+def editar_curso(request):
+
+    _id = request.POST['txtId']
+
+    _nombre = request.POST['txtNombre']
+
+    _creditos = request.POST['numCreditos']
+
+    curso=Curso.objects.get(id=_id)
+
+    curso.nombre = _nombre
+
+    curso.creditos = _creditos
+
+    curso.save()
+
+    return redirect('/')
+
 def eliminar_curso(request,id):
 
     curso=Curso.objects.get(id=id)
@@ -52,4 +81,8 @@ def eliminar_curso(request,id):
     curso.delete()
 
     return redirect('/')
+
+def contacto(request):
+
+    return render(request,"contacto.html")
 
